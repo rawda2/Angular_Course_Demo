@@ -1,0 +1,163 @@
+<div class="container mx-auto px-4 py-8 max-w-4xl">
+    <!-- Header -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
+            {{ isEditMode() ? 'Edit Product' : 'Add New Product' }}
+        </h1>
+        <p class="text-gray-600 mt-1">
+            {{
+            isEditMode()
+            ? 'Update product information'
+            : 'Fill in the details to create a new product'
+            }}
+        </p>
+    </div>
+
+    <!-- Product Form -->
+    <div class="bg-white rounded-xl shadow-lg p-6 md:p-8">
+        <form (ngSubmit)="onSubmit()" #productForm="ngForm">
+            <!-- Product Name -->
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Product Name <span class="text-red-500">*</span>
+                </label>
+                <input type="text" [(ngModel)]="product.name" name="name" required minlength="3" maxlength="100"
+                    #nameInput="ngModel"
+                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                    [class.border-red-500]="nameInput.invalid && nameInput.touched" placeholder="Enter product name" />
+                @if (nameInput.invalid && nameInput.touched) {
+                <div class="text-red-500 text-sm mt-1">
+                    @if (nameInput.errors?.['required']) {
+                    <span>Product name is required</span>
+                    }
+                    @if (nameInput.errors?.['minlength']) {
+                    <span>Product name must be at least 3 characters</span>
+                    }
+                </div>
+                }
+            </div>
+
+            <!-- Category -->
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Category <span class="text-red-500">*</span>
+                </label>
+                <select [(ngModel)]="product.category" name="category" required #categoryInput="ngModel"
+                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                    [class.border-red-500]="categoryInput.invalid && categoryInput.touched">
+                    <option value="">Select a category</option>
+                    @for (cat of categories; track cat.id) {
+                    <option [value]="cat.id">{{ cat.icon }} {{ cat.name }}</option>
+                    }
+                </select>
+                @if (categoryInput.invalid && categoryInput.touched) {
+                <div class="text-red-500 text-sm mt-1">Category is required</div>
+                }
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <!-- Price -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        Price ($) <span class="text-red-500">*</span>
+                    </label>
+                    <input type="number" [(ngModel)]="product.price" name="price" required min="0.01" step="0.01"
+                        #priceInput="ngModel"
+                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                        [class.border-red-500]="priceInput.invalid && priceInput.touched" placeholder="0.00" />
+                    @if (priceInput.invalid && priceInput.touched) {
+                    <div class="text-red-500 text-sm mt-1">
+                        @if (priceInput.errors?.['required']) {
+                        <span>Price is required</span>
+                        }
+                        @if (priceInput.errors?.['min']) {
+                        <span>Price must be greater than 0</span>
+                        }
+                    </div>
+                    }
+                </div>
+
+                <!-- Stock Status -->
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2"> Stock Status </label>
+                    <div class="flex items-center gap-4 mt-2">
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" [(ngModel)]="product.inStock" name="inStock" [value]="true"
+                                class="w-4 h-4 text-green-600" />
+                            <span class="text-green-600">✓ In Stock</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer">
+                            <input type="radio" [(ngModel)]="product.inStock" name="inStock" [value]="false"
+                                class="w-4 h-4 text-red-600" />
+                            <span class="text-red-600">✗ Out of Stock</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Description -->
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Description <span class="text-red-500">*</span>
+                </label>
+                <textarea [(ngModel)]="product.description" name="description" required minlength="10" maxlength="500"
+                    rows="5" #descInput="ngModel"
+                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all resize-none"
+                    [class.border-red-500]="descInput.invalid && descInput.touched"
+                    placeholder="Enter product description (min 10 characters)"></textarea>
+                <div class="flex justify-between mt-1">
+                    @if (descInput.invalid && descInput.touched) {
+                    <div class="text-red-500 text-sm">
+                        @if (descInput.errors?.['required']) {
+                        <span>Description is required</span>
+                        }
+                        @if (descInput.errors?.['minlength']) {
+                        <span>Description must be at least 10 characters</span>
+                        }
+                    </div>
+                    }
+                    <div class="text-gray-500 text-sm">
+                        {{ product.description?.length || 0 }}/500 characters
+                    </div>
+                </div>
+            </div>
+
+            <!-- Image URL (Optional) -->
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Image URL (Optional)
+                </label>
+                <input type="url" [(ngModel)]="product.imageUrl" name="imageUrl"
+                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition-all"
+                    placeholder="https://example.com/image.jpg" />
+                <p class="text-gray-500 text-sm mt-1">Leave empty to use a random image</p>
+            </div>
+
+            <!-- Rating (Optional) -->
+            <div class="mb-6">
+                <label class="block text-sm font-semibold text-gray-700 mb-2"> Rating (0-5) </label>
+                <div class="flex items-center gap-4">
+                    <input type="range" [(ngModel)]="product.rating" name="rating" min="0" max="5" step="0.1"
+                        class="flex-1" />
+                    <span class="text-lg font-bold text-yellow-500">{{ product.rating || 0 }} ★</span>
+                </div>
+            </div>
+
+            <!-- Form Buttons -->
+            <div class="flex gap-4 pt-4">
+                <button type="submit" [disabled]="productForm.invalid || isSubmitting()"
+                    class="flex-1 btn-primary disabled:opacity-50 disabled:cursor-not-allowed">
+                    @if (isSubmitting()) {
+                    <span class="inline-block animate-spin mr-2">⏳</span>
+                    }
+                    {{ isEditMode() ? 'Update Product' : 'Create Product' }}
+                </button>
+
+                <button type="button" (click)="onCancel()"
+                    class="flex-1 px-6 py-2.5 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-all font-medium">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

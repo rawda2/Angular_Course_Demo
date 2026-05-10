@@ -1,6 +1,6 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { ProductService } from '../../services/product.service';
 import { ProductCardComponent } from '../product-card/product-card';
@@ -10,7 +10,7 @@ import { Product, ProductFilters } from '../../Interfaces/product';
   selector: 'app-products',
   standalone: true,
   imports: [CommonModule, RouterModule, FormsModule, ProductCardComponent],
-  templateUrl:'./products.html',
+  templateUrl: './products.html',
 })
 export class ProductsComponent implements OnInit {
   products = signal<Product[]>([]);
@@ -26,7 +26,10 @@ export class ProductsComponent implements OnInit {
     inStockOnly: false,
   };
 
-  constructor(private productService: ProductService) {}
+  constructor(
+    private productService: ProductService,
+    private router: Router,
+  ) {}
 
   ngOnInit() {
     this.loadProducts();
@@ -62,14 +65,12 @@ export class ProductsComponent implements OnInit {
 
   viewProductDetails(product: Product) {
     console.log('Viewing product:', product);
-    // Navigate to details page
-    // this.router.navigate(['/products', product.id]);
+    this.router.navigate(['/products', product.id]);
   }
 
   editProduct(product: Product) {
     console.log('Editing product:', product);
-    // Navigate to edit page
-    // this.router.navigate(['/products/edit', product.id]);
+    this.router.navigate(['/products/edit', product.id]);
   }
 
   deleteProduct(product: Product) {
