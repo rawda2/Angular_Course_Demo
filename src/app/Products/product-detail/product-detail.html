@@ -1,0 +1,73 @@
+<div class="container mx-auto px-4 py-8 max-w-6xl">
+    @if (product) {
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div class="grid md:grid-cols-2 gap-8">
+            <!-- Product Image -->
+            <div class="bg-gradient-to-br from-purple-100 to-indigo-100 p-8">
+                <img [src]="product.imageUrl || 'https://picsum.photos/id/1/500/500'" [alt]="product.name"
+                    class="w-full h-auto rounded-lg shadow-lg" />
+            </div>
+
+            <!-- Product Info -->
+            <div class="p-8">
+                <div class="mb-4">
+                    <span class="px-3 py-1 bg-purple-100 text-purple-600 rounded-full text-sm">
+                        {{ product.category }}
+                    </span>
+                </div>
+
+                <h1 class="text-3xl font-bold text-gray-800 mb-4">{{ product.name }}</h1>
+
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="text-3xl font-bold text-purple-600">\${{ product.price }}</div>
+                    @if (product.rating) {
+                    <div class="flex items-center gap-1">
+                        <span class="text-yellow-400 text-xl">★</span>
+                        <span class="font-semibold">{{ product.rating }}</span>
+                        <span class="text-gray-500">/ 5</span>
+                    </div>
+                    }
+                </div>
+
+                <div class="mb-6">
+                    <h3 class="font-semibold text-gray-800 mb-2">Description</h3>
+                    <p class="text-gray-600 leading-relaxed">{{ product.description }}</p>
+                </div>
+
+                <div class="mb-6">
+                    <div class="flex items-center gap-2">
+                        <span class="font-semibold text-gray-800">Status:</span>
+                        @if (product.inStock) {
+                        <span class="px-2 py-1 bg-green-100 text-green-700 rounded-full text-sm">In Stock</span>
+                        } @else {
+                        <span class="px-2 py-1 bg-red-100 text-red-700 rounded-full text-sm">Out of Stock</span>
+                        }
+                    </div>
+                </div>
+
+                <div class="flex gap-4">
+                    <button (click)="editProduct()"
+                        class="flex-1 px-6 py-3 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-all font-medium">
+                        ✏️ Edit Product
+                    </button>
+                    <button (click)="deleteProduct()"
+                        class="flex-1 px-6 py-3 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-all font-medium">
+                        🗑️ Delete Product
+                    </button>
+                </div>
+
+                <button (click)="goBack()"
+                    class="w-full mt-4 px-6 py-3 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 transition-all font-medium">
+                    ← Back to Products
+                </button>
+            </div>
+        </div>
+    </div>
+    } @else {
+    <div class="text-center py-20">
+        <div class="text-6xl mb-4">🔍</div>
+        <h3 class="text-xl font-semibold text-gray-800 mb-2">Product Not Found</h3>
+        <button (click)="goBack()" class="btn-primary">Go Back</button>
+    </div>
+    }
+</div>

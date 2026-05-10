@@ -114,18 +114,7 @@ export const DUMMY_PRODUCTS: Product[] = [
     rating: 4.3,
     createdAt: new Date('2024-01-22'),
   },
-  {
-    id: 10,
-    name: 'Robot Vacuum Cleaner',
-    description:
-      'Smart navigation, 2000Pa suction, Wi-Fi connected, Works with Alexa, Self-charging, HEPA filter.',
-    price: 349,
-    category: 'Home',
-    imageUrl: 'https://picsum.photos/id/31/300/200',
-    inStock: true,
-    rating: 4.5,
-    createdAt: new Date('2024-02-08'),
-  },
+ 
   {
     id: 11,
     name: 'Instant Pot Duo',
