@@ -4,6 +4,17 @@ export interface Product {
   description: string;
   price: number;
   category: string;
+  imageUrl?: string;
   inStock: boolean;
-  createdAt?: Date;
+  rating?: number;
+  createdAt: Date;
+  updatedAt?: Date;
+}
+
+export interface ProductFilters {
+  search?: string;
+  category?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  inStockOnly?: boolean;
 }

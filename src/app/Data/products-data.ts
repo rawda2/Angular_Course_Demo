@@ -1,0 +1,265 @@
+import { Product } from '../Interfaces/product';
+
+export const DUMMY_PRODUCTS: Product[] = [
+  // Electronics
+  {
+    id: 1,
+    name: 'MacBook Pro 14"',
+    description:
+      'Apple M3 Pro chip with 12-core CPU, 18-core GPU, 16GB RAM, 512GB SSD. Stunning Liquid Retina XDR display with ProMotion technology.',
+    price: 1999,
+    category: 'Electronics',
+    imageUrl: 'https://picsum.photos/id/0/300/200',
+    inStock: true,
+    rating: 4.8,
+    createdAt: new Date('2024-01-15'),
+  },
+  {
+    id: 2,
+    name: 'Samsung Galaxy S24 Ultra',
+    description:
+      '6.8" Dynamic AMOLED 2X, 200MP Camera, S Pen included, Snapdragon 8 Gen 3, 5000mAh battery.',
+    price: 1299,
+    category: 'Electronics',
+    imageUrl: 'https://picsum.photos/id/0/300/200',
+    inStock: true,
+    rating: 4.7,
+    createdAt: new Date('2024-02-10'),
+  },
+  {
+    id: 3,
+    name: 'Sony WH-1000XM5',
+    description:
+      'Industry-leading noise cancellation, 30-hour battery life, Premium sound quality, Lightweight design.',
+    price: 399,
+    category: 'Electronics',
+    imageUrl: 'https://picsum.photos/id/1/300/200',
+    inStock: true,
+    rating: 4.9,
+    createdAt: new Date('2024-01-20'),
+  },
+  {
+    id: 4,
+    name: 'iPad Pro 12.9"',
+    description:
+      'M2 chip, Liquid Retina XDR display, 256GB storage, Supports Apple Pencil hover, 5G capable.',
+    price: 1099,
+    category: 'Electronics',
+    imageUrl: 'https://picsum.photos/id/2/300/200',
+    inStock: false,
+    rating: 4.6,
+    createdAt: new Date('2024-01-25'),
+  },
+
+  // Fashion
+  {
+    id: 5,
+    name: 'Nike Air Max 2024',
+    description:
+      'Comfortable running shoes with Air cushioning technology, Breathable mesh upper, Durable rubber outsole.',
+    price: 159,
+    category: 'Fashion',
+    imageUrl: 'https://picsum.photos/id/20/300/200',
+    inStock: true,
+    rating: 4.5,
+    createdAt: new Date('2024-02-01'),
+  },
+  {
+    id: 6,
+    name: 'Adidas Ultraboost',
+    description:
+      'Responsive Boost midsole, Stretchweb outsole, Primeknit upper for adaptive support and breathability.',
+    price: 180,
+    category: 'Fashion',
+    imageUrl: 'https://picsum.photos/id/20/300/200',
+    inStock: true,
+    rating: 4.7,
+    createdAt: new Date('2024-02-05'),
+  },
+  {
+    id: 7,
+    name: "Levi's 501 Jeans",
+    description:
+      'Original fit jeans, Straight leg, Button fly, 100% cotton, Classic five-pocket styling.',
+    price: 89,
+    category: 'Fashion',
+    imageUrl: 'https://picsum.photos/id/21/300/200',
+    inStock: true,
+    rating: 4.4,
+    createdAt: new Date('2024-01-18'),
+  },
+  {
+    id: 8,
+    name: 'Michael Kors Handbag',
+    description:
+      'Signature canvas, Leather trim, Gold-tone hardware, Adjustable strap, Multiple interior pockets.',
+    price: 299,
+    category: 'Fashion',
+    imageUrl: 'https://picsum.photos/id/22/300/200',
+    inStock: false,
+    rating: 4.6,
+    createdAt: new Date('2024-02-12'),
+  },
+
+  // Home & Living
+  {
+    id: 9,
+    name: 'Coffee Maker Pro Deluxe',
+    description:
+      'Programmable coffee maker with thermal carafe, 12-cup capacity, Auto-shutoff, Brew strength control.',
+    price: 129,
+    category: 'Home',
+    imageUrl: 'https://picsum.photos/id/30/300/200',
+    inStock: true,
+    rating: 4.3,
+    createdAt: new Date('2024-01-22'),
+  },
+  {
+    id: 10,
+    name: 'Robot Vacuum Cleaner',
+    description:
+      'Smart navigation, 2000Pa suction, Wi-Fi connected, Works with Alexa, Self-charging, HEPA filter.',
+    price: 349,
+    category: 'Home',
+    imageUrl: 'https://picsum.photos/id/31/300/200',
+    inStock: true,
+    rating: 4.5,
+    createdAt: new Date('2024-02-08'),
+  },
+  {
+    id: 11,
+    name: 'Instant Pot Duo',
+    description:
+      '7-in-1 pressure cooker, Slow cooker, Rice cooker, Steamer, Sauté pan, Yogurt maker, Warmer.',
+    price: 99,
+    category: 'Home',
+    imageUrl: 'https://picsum.photos/id/32/300/200',
+    inStock: true,
+    rating: 4.8,
+    createdAt: new Date('2024-01-28'),
+  },
+  {
+    id: 12,
+    name: 'Memory Foam Pillow',
+    description:
+      'Ergonomic design, Cooling gel-infused memory foam, Adjustable loft, Hypoallergenic cover.',
+    price: 49,
+    category: 'Home',
+    imageUrl: 'https://picsum.photos/id/33/300/200',
+    inStock: true,
+    rating: 4.2,
+    createdAt: new Date('2024-02-15'),
+  },
+
+  // Sports & Outdoors
+  {
+    id: 13,
+    name: 'Yoga Mat Premium',
+    description:
+      'Eco-friendly non-slip mat, 6mm thickness, Alignment lines, Carrying strap included.',
+    price: 39,
+    category: 'Sports',
+    imageUrl: 'https://picsum.photos/id/40/300/200',
+    inStock: true,
+    rating: 4.4,
+    createdAt: new Date('2024-01-30'),
+  },
+  {
+    id: 14,
+    name: 'Smart Fitness Watch',
+    description:
+      'Heart rate monitor, GPS tracking, 7-day battery life, Water-resistant, Sleep tracking.',
+    price: 199,
+    category: 'Sports',
+    imageUrl: 'https://picsum.photos/id/41/300/200',
+    inStock: false,
+    rating: 4.6,
+    createdAt: new Date('2024-02-03'),
+  },
+  {
+    id: 15,
+    name: 'Dumbbell Set 50lbs',
+    description:
+      'Adjustable dumbbell set, Quick-change system, Durable construction, Non-slip grip.',
+    price: 299,
+    category: 'Sports',
+    imageUrl: 'https://picsum.photos/id/42/300/200',
+    inStock: true,
+    rating: 4.7,
+    createdAt: new Date('2024-02-18'),
+  },
+
+  // Books & Media
+  {
+    id: 16,
+    name: 'Kindle Paperwhite',
+    description:
+      '6.8" display, Adjustable warm light, Waterproof, 10-week battery life, 16GB storage.',
+    price: 139,
+    category: 'Books',
+    imageUrl: 'https://picsum.photos/id/50/300/200',
+    inStock: true,
+    rating: 4.7,
+    createdAt: new Date('2024-01-17'),
+  },
+  {
+    id: 17,
+    name: 'The Psychology of Money',
+    description:
+      'Timeless lessons on wealth, greed, and happiness. Bestselling book by Morgan Housel.',
+    price: 19,
+    category: 'Books',
+    imageUrl: 'https://picsum.photos/id/51/300/200',
+    inStock: true,
+    rating: 4.9,
+    createdAt: new Date('2024-02-20'),
+  },
+  {
+    id: 18,
+    name: 'Bluetooth Speaker',
+    description:
+      '360° sound, 24-hour playtime, Waterproof, Built-in power bank, Connects to 100+ speakers.',
+    price: 79,
+    category: 'Electronics',
+    imageUrl: 'https://picsum.photos/id/52/300/200',
+    inStock: true,
+    rating: 4.5,
+    createdAt: new Date('2024-01-27'),
+  },
+
+  // Beauty & Personal Care
+  {
+    id: 19,
+    name: 'Hair Dryer Professional',
+    description:
+      'Ionic technology, 1875W, Multiple heat/speed settings, Diffuser and concentrator attachments.',
+    price: 89,
+    category: 'Beauty',
+    imageUrl: 'https://picsum.photos/id/60/300/200',
+    inStock: true,
+    rating: 4.3,
+    createdAt: new Date('2024-02-07'),
+  },
+  {
+    id: 20,
+    name: 'Electric Toothbrush',
+    description:
+      'Sonic technology, 3 cleaning modes, 2-minute timer, USB charger, 8 brush heads included.',
+    price: 69,
+    category: 'Beauty',
+    imageUrl: 'https://picsum.photos/id/61/300/200',
+    inStock: true,
+    rating: 4.4,
+    createdAt: new Date('2024-01-29'),
+  },
+];
+
+// Categories with metadata
+export const CATEGORIES = [
+  { id: 'Electronics', name: 'Electronics', icon: '💻', color: 'blue' },
+  { id: 'Fashion', name: 'Fashion', icon: '👕', color: 'pink' },
+  { id: 'Home', name: 'Home & Living', icon: '🏠', color: 'green' },
+  { id: 'Sports', name: 'Sports & Outdoors', icon: '⚽', color: 'orange' },
+  { id: 'Books', name: 'Books & Media', icon: '📚', color: 'purple' },
+  { id: 'Beauty', name: 'Beauty & Personal Care', icon: '💄', color: 'red' },
+];

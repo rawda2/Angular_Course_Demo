@@ -1,9 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, input, output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Product } from '../../Interfaces/product';
 
 @Component({
   selector: 'app-product-card',
-  imports: [],
-  templateUrl: './product-card.html',
-  styleUrl: './product-card.css',
+  standalone: true,
+  imports: [CommonModule],
+  templateUrl:'./product-card.html',
+  styles: [
+  
+  ],
 })
-export class ProductCard {}
+export class ProductCardComponent {
+  product = input.required<Product>();
+  viewDetails = output<Product>();
+  edit = output<Product>();
+  delete = output<Product>();
+
+  onViewDetails() {
+    this.viewDetails.emit(this.product());
+  }
+
+  onEdit() {
+    this.edit.emit(this.product());
+  }
+
+  onDelete() {
+    this.delete.emit(this.product());
+  }
+}
