@@ -1,0 +1,183 @@
+<div class="signup-container">
+    <div class="signup-card">
+        <div class="signup-header">
+            <h2>Create Account</h2>
+            <p>Join us to start your learning journey</p>
+        </div>
+
+        <form (ngSubmit)="onSubmit()" #signupForm="ngForm">
+            <!-- Email Field -->
+            <div class="form-group">
+                <label for="email">
+                    Email Address <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                    <span class="input-icon">📧</span>
+                    <input type="email" id="email" name="email" [(ngModel)]="email" (blur)="validateEmail()"
+                        (input)="validateEmail()" (change)="generateUsernameFromEmail()" required
+                        placeholder="Enter your email" [class.invalid]="validationErrors.email" />
+                </div>
+                @if (validationErrors.email) {
+                <div class="error-message">
+                    <span class="error-icon">⚠️</span>
+                    {{ validationErrors.email }}
+                </div>
+                }
+            </div>
+
+            <!-- Username Field -->
+            <div class="form-group">
+                <label for="username">
+                    Username <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                    <span class="input-icon">👤</span>
+                    <input type="text" id="username" name="username" [(ngModel)]="username" (blur)="validateUsername()"
+                        (input)="validateUsername()" required placeholder="Choose a username"
+                        [class.invalid]="validationErrors.username" />
+                </div>
+                <div class="input-hint">3-20 characters, letters, numbers, and underscores only</div>
+                @if (validationErrors.username) {
+                <div class="error-message">
+                    <span class="error-icon">⚠️</span>
+                    {{ validationErrors.username }}
+                </div>
+                }
+            </div>
+
+            <!-- First & Last Name Row -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="firstName">First Name (Optional)</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">📝</span>
+                        <input type="text" id="firstName" name="firstName" [(ngModel)]="firstName"
+                            (blur)="validateFirstName()" (input)="validateFirstName()" placeholder="First name"
+                            [class.invalid]="validationErrors.firstName" />
+                    </div>
+                    @if (validationErrors.firstName) {
+                    <div class="error-message">
+                        <span class="error-icon">⚠️</span>
+                        {{ validationErrors.firstName }}
+                    </div>
+                    }
+                </div>
+
+                <div class="form-group">
+                    <label for="lastName">Last Name (Optional)</label>
+                    <div class="input-wrapper">
+                        <span class="input-icon">📝</span>
+                        <input type="text" id="lastName" name="lastName" [(ngModel)]="lastName"
+                            (blur)="validateLastName()" (input)="validateLastName()" placeholder="Last name"
+                            [class.invalid]="validationErrors.lastName" />
+                    </div>
+                    @if (validationErrors.lastName) {
+                    <div class="error-message">
+                        <span class="error-icon">⚠️</span>
+                        {{ validationErrors.lastName }}
+                    </div>
+                    }
+                </div>
+            </div>
+
+            <!-- Password Field -->
+            <div class="form-group">
+                <label for="password">
+                    Password <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                    <span class="input-icon">🔒</span>
+                    <input [type]="showPassword ? 'text' : 'password'" id="password" name="password"
+                        [(ngModel)]="password" (blur)="validatePassword()" (input)="validatePassword()" required
+                        placeholder="Create a password" [class.invalid]="validationErrors.password" />
+                    <button type="button" class="toggle-password" (click)="togglePasswordVisibility()">
+                        {{ showPassword ? '🙈' : '👁️' }}
+                    </button>
+                </div>
+                <div class="password-requirements">
+                    <div class="requirement" [class.valid]="password.length >= 6">
+                        ✓ At least 6 characters
+                    </div>
+                    <div class="requirement" [class.valid]="/[A-Z]/.test(password)">
+                        ✓ One uppercase letter
+                    </div>
+                    <div class="requirement" [class.valid]="/[a-z]/.test(password)">
+                        ✓ One lowercase letter
+                    </div>
+                    <div class="requirement" [class.valid]="/[0-9]/.test(password)">
+                        ✓ One number
+                    </div>
+                </div>
+                @if (validationErrors.password) {
+                <div class="error-message">
+                    <span class="error-icon">⚠️</span>
+                    {{ validationErrors.password }}
+                </div>
+                }
+            </div>
+
+            <!-- Confirm Password Field -->
+            <div class="form-group">
+                <label for="confirmPassword">
+                    Confirm Password <span class="required">*</span>
+                </label>
+                <div class="input-wrapper">
+                    <span class="input-icon">🔒</span>
+                    <input [type]="showConfirmPassword ? 'text' : 'password'" id="confirmPassword"
+                        name="confirmPassword" [(ngModel)]="confirmPassword" (blur)="validateConfirmPassword()"
+                        (input)="validateConfirmPassword()" required placeholder="Confirm your password"
+                        [class.invalid]="validationErrors.confirmPassword" />
+                    <button type="button" class="toggle-password" (click)="toggleConfirmPasswordVisibility()">
+                        {{ showConfirmPassword ? '🙈' : '👁️' }}
+                    </button>
+                </div>
+                @if (validationErrors.confirmPassword) {
+                <div class="error-message">
+                    <span class="error-icon">⚠️</span>
+                    {{ validationErrors.confirmPassword }}
+                </div>
+                }
+                @if (confirmPassword && !validationErrors.confirmPassword && password === confirmPassword) {
+                <div class="success-message-small">
+                    <span class="success-icon">✓</span> Passwords match!
+                </div>
+                }
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="submit-btn" [disabled]="isSubmitting || !isFormValid()">
+                @if (isSubmitting) {
+                <span class="spinner"></span>
+                Creating Account...
+                } @else {
+                ✨ Create Account
+                }
+            </button>
+
+            <!-- Error/Success Messages -->
+            @if (errorMessage) {
+            <div class="alert alert-error">
+                <span class="alert-icon">❌</span>
+                {{ errorMessage }}
+            </div>
+            }
+
+            @if (successMessage) {
+            <div class="alert alert-success">
+                <span class="alert-icon">✅</span>
+                {{ successMessage }}
+            </div>
+            }
+
+            <!-- Reset Button -->
+            <button type="button" class="reset-btn" (click)="resetForm()">
+                Reset Form
+            </button>
+
+            <!-- Login Link -->
+            <div class="login-link">
+                Already have an account? <a routerLink="/signin">Sign in here</a>
+            </div>
+        </form>
+    </div>
+</div>
