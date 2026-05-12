@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { ProductService } from '../../services/product.service';
 import { Product } from '../../Interfaces/product';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-product-detail',
@@ -10,8 +11,11 @@ import { Product } from '../../Interfaces/product';
   imports: [CommonModule, RouterModule],
   templateUrl: './product-detail.html',
 })
-export class ProductDetailComponent implements OnInit {
+export class ProductDetailComponent implements OnInit, OnDestroy {
   product: Product | null = null;
+  isLoading = true;
+  errorMessage = '';
+  private subscription: Subscription | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -21,8 +25,34 @@ export class ProductDetailComponent implements OnInit {
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get('id');
+    console.log('Product ID from route:', id);
+
     if (id) {
-      this.product = this.productService.getProductById(parseInt(id)) || null;
+      this.isLoading = true;
+      this.subscription = this.productService.getProductById(parseInt(id)).subscribe({
+        next: (product) => {
+          console.log('Product received:', product);
+          this.product = product;
+          this.isLoading = false;
+          this.errorMessage = '';
+        },
+        error: (error) => {
+          console.error('Error loading product:', error);
+          this.errorMessage = 'Failed to load product details';
+          this.isLoading = false;
+          this.product = null;
+        },
+      });
+    } else {
+      console.log('No product ID provided');
+      this.isLoading = false;
+      this.errorMessage = 'No product ID provided';
+    }
+  }
+
+  ngOnDestroy() {
+    if (this.subscription) {
+      this.subscription.unsubscribe();
     }
   }
 
@@ -34,9 +64,18 @@ export class ProductDetailComponent implements OnInit {
 
   deleteProduct() {
     if (this.product && confirm(`Are you sure you want to delete "${this.product.name}"?`)) {
-      this.productService.deleteProduct(this.product.id);
-      alert('Product deleted successfully!');
-      this.router.navigate(['/products']);
+      this.isLoading = true;
+      this.productService.deleteProduct(this.product.id).subscribe({
+        next: () => {
+          alert('Product deleted successfully!');
+          this.router.navigate(['/products']);
+        },
+        error: (error) => {
+          console.error('Error deleting product:', error);
+          alert('Error deleting product. Please try again.');
+          this.isLoading = false;
+        },
+      });
     }
   }
 
