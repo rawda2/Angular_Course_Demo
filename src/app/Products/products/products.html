@@ -9,29 +9,44 @@
         </div>
 
         <button routerLink="/products/add" class="btn-primary flex items-center gap-2">
-            <span >➕</span> Add New Product
+            <span>➕</span> Add New Product
         </button>
     </div>
 
-    <!-- Filters Section -->
-    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
-        <h3 class="text-lg font-semibold text-gray-800 mb-4">Filter Products</h3>
+    <!-- Category Filter Section -->
+    <div class="mb-8">
+        <div class="flex flex-wrap items-center gap-4">
+            <!-- All Products button -->
+            <button (click)="onCategoryChange('')" [class.bg-blue-600]="selectedCategory() === ''"
+                [class.text-white]="selectedCategory() === ''" [class.bg-gray-200]="selectedCategory() !== ''"
+                [class.text-gray-700]="selectedCategory() !== ''"
+                class="px-4 py-2 rounded-lg font-medium transition duration-200 hover:bg-blue-500 hover:text-white">
+                All Products
+            </button>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-
-            <!-- Category Filter -->
-            <div>
-                <label for="" class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                <select [(ngModel)]="filters.category" (ngModelChange)="applyFilters()" class="input-field">
-                    <option value="">All Categories</option>
-                    @for (category of categories(); track category) {
-                    <option [value]="category">{{ category }}</option>
-                    }
-                </select>
-            </div>
-
-          
+            <!-- Category buttons -->
+            @for (category of categories(); track category.id) {
+            <button (click)="onCategoryChange(category.name)" [class.bg-blue-600]="selectedCategory() === category.name"
+                [class.text-white]="selectedCategory() === category.name"
+                [class.bg-gray-200]="selectedCategory() !== category.name"
+                [class.text-gray-700]="selectedCategory() !== category.name"
+                class="px-4 py-2 rounded-lg font-medium transition duration-200 hover:bg-blue-500 hover:text-white flex items-center gap-2">
+                <span>{{ category.icon }}</span>
+                <span>{{ category.name }}</span>
+            </button>
+            }
         </div>
+
+        <!-- Clear filter button (only shows when a category is selected) -->
+        @if (selectedCategory()) {
+        <div class="mt-4">
+            <button (click)="clearFilters()"
+                class="text-red-600 hover:text-red-800 text-sm font-medium flex items-center gap-1">
+                <span>✕</span>
+                <span>Clear Filter: {{ selectedCategory() }}</span>
+            </button>
+        </div>
+        }
     </div>
 
     <!-- Loading State -->
@@ -53,7 +68,13 @@
     <div class="text-center py-20 bg-white rounded-xl shadow-md">
         <div class="text-6xl mb-4">🛒</div>
         <h3 class="text-xl font-semibold text-gray-800 mb-2">No Products Found</h3>
-        <p class="text-gray-600">Try adjusting your filters or add a new product</p>
+        <p class="text-gray-600">
+            @if (selectedCategory()) {
+            No products available in category "{{ selectedCategory() }}"
+            } @else {
+            Try adjusting your filters or add a new product
+            }
+        </p>
         <button routerLink="/products/add" class="btn-primary mt-4">
             Add Your First Product
         </button>

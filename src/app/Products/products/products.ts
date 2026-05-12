@@ -15,15 +15,11 @@ import { Product, ProductFilters } from '../../Interfaces/product';
 export class ProductsComponent implements OnInit {
   products = signal<Product[]>([]);
   filteredProducts = signal<Product[]>([]);
-  categories = signal<string[]>([]);
+  categories = signal<{ id: string; name: string; icon: string }[]>([]);
   isLoading = signal(false);
-
+  selectedCategory = signal<string>(''); 
   filters: ProductFilters = {
-    search: '',
     category: '',
-    minPrice: undefined,
-    maxPrice: undefined,
-    inStockOnly: false,
   };
 
   constructor(
@@ -33,33 +29,57 @@ export class ProductsComponent implements OnInit {
 
   ngOnInit() {
     this.loadProducts();
+    this.loadCategories();
   }
 
   loadProducts() {
     this.isLoading.set(true);
-
-    setTimeout(() => {
-      const products = this.productService.getProducts();
-      this.products.set(products);
-      this.categories.set(this.productService.getCategories());
-      this.applyFilters();
-      this.isLoading.set(false);
-    }, 500);
+    this.productService.GetProducts().subscribe({
+      next: (data) => {
+        this.products.set(data);
+        this.applyFilters(); 
+        this.isLoading.set(false);
+      },
+      error: (error) => {
+        console.error('Error loading products:', error);
+        this.isLoading.set(false);
+      },
+    });
   }
 
+  loadCategories() {
+    this.productService.getCategories().subscribe({
+      next: (data) => {
+        this.categories.set(data);
+        console.log('Categories loaded:', data);
+      },
+      error: (error) => console.error('Error loading categories:', error),
+    });
+  }
+
+  // Apply category filter
   applyFilters() {
-    const filtered = this.productService.filterProducts(this.filters);
+    let filtered = [...this.products()];
+
+    // Apply category filter if selected
+    if (this.filters.category && this.filters.category !== '') {
+      filtered = filtered.filter((product) => product.category === this.filters.category);
+    }
+
     this.filteredProducts.set(filtered);
   }
 
+  // Handle category selection
+  onCategoryChange(categoryId: string) {
+    this.filters.category = categoryId;
+    this.selectedCategory.set(categoryId);
+    this.applyFilters();
+  }
+
+  // Clear category filter
   clearFilters() {
-    this.filters = {
-      search: '',
-      category: '',
-      minPrice: undefined,
-      maxPrice: undefined,
-      inStockOnly: false,
-    };
+    this.filters.category = '';
+    this.selectedCategory.set('');
     this.applyFilters();
   }
 
@@ -79,6 +99,8 @@ export class ProductsComponent implements OnInit {
       if (success) {
         this.loadProducts();
         alert('Product deleted successfully!');
+      } else {
+        alert('Error deleting product');
       }
     }
   }
